@@ -11,7 +11,7 @@ groups = dataset.apply_preprocess()
 
 vis = tsag.visualization.Visualizer(dataset_name)
 
-tansfs = sys.argv[1:]
+transfs = sys.argv[1:]
 
 algorithm = 'gpf'
 for k in transfs:
