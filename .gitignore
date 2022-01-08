@@ -48,3 +48,6 @@ Thumbs.db
 model_binaries/
 vids/
 audio/
+original_datasets/
+transformed_datasets/
+data/

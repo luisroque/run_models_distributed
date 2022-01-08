@@ -1,0 +1,9 @@
+#!/bin/bash
+
+cd run_models_distributed
+scp -r data/ mach2ne:/home/lroque/run_models_distributed/
+scp -r data/ coral:/home/lroque/run_models_distributed/
+scp -r data/ marineye:/home/lroque/run_models_distributed/
+scp -r data/ nitro:/home/lroque/run_models_distributed/
+
+ansible-playbook /etc/ansible/sample.yml
