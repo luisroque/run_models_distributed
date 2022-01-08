@@ -18,6 +18,13 @@ def create_groups_from_data(dataset_name):
 def run_algorithm(algorithms, transformations, groups, vis, aggregate_key):
     for algorithm in algorithms:
         for k in transformations:
+            # run algorithms for the original version of the dataset
+            run_deepar(dataset=f'{dataset_name}_{algorithm}_{k}_orig_s0', groups=groups)
+            run_mint(dataset=f'{dataset_name}_{algorithm}_{k}_orig_s0', 
+                    groups=groups,
+                    aggregate_key)
+            run_gpf(dataset=f'{dataset_name}_{algorithm}_{k}_orig_s0', groups=groups)
+            # run algorithms for the transformed versions of the dataset
             vis._read_files(f'single_transf_{k}')
             for i in range(6):
                 for j in range(10):
