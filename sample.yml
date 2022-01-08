@@ -1,0 +1,66 @@
+---
+- hosts: [servers]
+  tasks:
+          - name: Delete content & directory
+            file:
+                  state: absent
+                  path: "/home/{{ hostvars[inventory_hostname].ansible_user }}/run_models_distributed"
+          - debug:
+                  msg: "/home/{{ hostvars[inventory_hostname].ansible_user }}/run_models_distributed"
+          - name: Clone a git repository
+            git:
+                    repo: https://github.com/luisroque/run_models_distributed.git
+                    dest: "/home/{{ hostvars[inventory_hostname].ansible_user }}/run_models_distributed"
+                    clone: yes
+                    update: yes
+          - name: Add path and initialize conda
+            shell: export PATH=~/anaconda3/bin:$PATH && conda init
+            args:
+                    executable: /bin/bash
+          - name: Conda create new env
+            shell: |
+                   source "/home/{{ hostvars[inventory_hostname].ansible_user }}/anaconda3/bin/activate"
+                   conda activate run_models
+                   pip install -r "/home/{{ hostvars[inventory_hostname].ansible_user }}/run_models_distributed/requirements.txt"
+            args:
+                    executable: /bin/bash
+            register: shell_output
+          - debug: var=shell_output.stdout_lines
+          - name: Run tourism deepar nitro
+            shell: |
+                   source "/home/{{ hostvars[inventory_hostname].ansible_user }}/anaconda3/bin/activate"
+                   conda activate run_models
+                   cd run_models_distributed
+                   python run_models.py -a deepar
+            args:
+                    executable: /bin/bash
+            register: shell_output
+            when: "'nitro' in inventory_hostname"
+          - name: Run tourism mint coral
+            shell: |
+                   source "/home/{{ hostvars[inventory_hostname].ansible_user }}/anaconda3/bin/activate"
+                   conda activate run_models
+                   cd run_models_distributed
+                   python run_models.py -a mint
+            args:
+                    executable: /bin/bash
+            register: shell_output
+            when: "'coral' in inventory_hostname"
+          - name: Run tourism gpf jitter and scaling
+            shell: |
+                   source "/home/{{ hostvars[inventory_hostname].ansible_user }}/anaconda3/bin/activate"
+                   conda activate run_models
+                   cd run_models_distributed
+                   python run_models.py -a gpf -t jitter scaling
+            args:
+                    executable: /bin/bash
+            when: "'marineye' in inventory_hostname"
+          - name: Run tourism gpf magnitude and time warping
+            shell: |
+                   source "/home/{{ hostvars[inventory_hostname].ansible_user }}/anaconda3/bin/activate"
+                   conda activate run_models
+                   cd run_models_distributed
+                   python run_models.py -a gpf -t magnitude_warp time_warp
+            args:
+                    executable: /bin/bash
+            when: "'mach2ne' in inventory_hostname"
