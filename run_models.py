@@ -15,14 +15,14 @@ def create_groups_from_data(dataset_name):
 
     return groups, vis
 
-def run_algorithm(algorithms, transformations, groups, vis, aggregate_key):
+def run_algorithm(dataset_name, algorithms, transformations, groups, vis, aggregate_key):
     for algorithm in algorithms:
         for k in transformations:
             # run algorithms for the original version of the dataset
             run_deepar(dataset=f'{dataset_name}_{algorithm}_{k}_orig_s0', groups=groups)
             run_mint(dataset=f'{dataset_name}_{algorithm}_{k}_orig_s0', 
                     groups=groups,
-                    aggregate_key)
+                    aggregate_key=aggregate_key)
             run_gpf(dataset=f'{dataset_name}_{algorithm}_{k}_orig_s0', groups=groups)
             # run algorithms for the transformed versions of the dataset
             vis._read_files(f'single_transf_{k}')
@@ -98,4 +98,4 @@ if __name__ == "__main__":
         aggregate_key = '(State / Zone / Region) * Purpose'
 
     groups, vis = create_groups_from_data(algo_transf['dataset'][0])
-    run_algorithm(algo_transf['algorithm'], algo_transf['transformation'], groups, vis, aggregate_key)
+    run_algorithm(algo_transf['dataset'], algo_transf['algorithm'], algo_transf['transformation'], groups, vis, aggregate_key)
