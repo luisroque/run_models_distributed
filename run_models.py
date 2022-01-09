@@ -19,11 +19,14 @@ def run_algorithm(dataset_name, algorithms, transformations, groups, vis, aggreg
     for algorithm in algorithms:
         for k in transformations:
             # run algorithms for the original version of the dataset
-            run_deepar(dataset=f'{dataset_name}_{algorithm}_{k}_orig_s0', groups=groups)
-            run_mint(dataset=f'{dataset_name}_{algorithm}_{k}_orig_s0', 
-                    groups=groups,
-                    aggregate_key=aggregate_key)
-            run_gpf(dataset=f'{dataset_name}_{algorithm}_{k}_orig_s0', groups=groups)
+            if algorithm=='deepar':
+                run_deepar(dataset=f'{dataset_name}_{algorithm}_{k}_orig_s0', groups=groups)
+            elif algorithm=='mint':
+                run_mint(dataset=f'{dataset_name}_{algorithm}_{k}_orig_s0',
+                         groups=groups,
+                         aggregate_key=aggregate_key)
+            elif algorithm=='gpf':
+                run_gpf(dataset=f'{dataset_name}_{algorithm}_{k}_orig_s0', groups=groups)
             # run algorithms for the transformed versions of the dataset
             vis._read_files(f'single_transf_{k}')
             for i in range(6):
