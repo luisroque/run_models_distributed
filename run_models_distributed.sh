@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # copy playbooks to ansible folder
-cp setup_playbook.yml /etc/ansible/setup_playbook.yml
-cp run_models_playbook.yml /etc/ansible/run_models_playbook.yml
+sudo cp setup_playbook.yml /etc/ansible/setup_playbook.yml
+sudo cp run_models_playbook.yml /etc/ansible/run_models_playbook.yml
 
 # run ansible setup file
 ansible-playbook /etc/ansible/setup_playbook.yml
