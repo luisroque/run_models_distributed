@@ -2,16 +2,6 @@
 - hosts: [servers]
   strategy: free
   tasks:
-          - name: Run tourism deepar nitro
-            shell: |
-                   source "/home/{{ hostvars[inventory_hostname].ansible_user }}/anaconda3/bin/activate"
-                   conda activate run_models
-                   cd run_models_distributed
-                   python run_models.py -a deepar
-            args:
-                    executable: /bin/bash
-            register: shell_output
-            when: "'nitro' in inventory_hostname"
           - name: Run tourism mint coral
             shell: |
                    source "/home/{{ hostvars[inventory_hostname].ansible_user }}/anaconda3/bin/activate"
@@ -36,10 +26,10 @@
                    source "/home/{{ hostvars[inventory_hostname].ansible_user }}/anaconda3/bin/activate"
                    conda activate run_models
                    cd run_models_distributed
-                   python run_models.py -a gpf -t magnitude_warp time_warp
+                   python run_models.py -a gpf -t time_warp
             args:
                     executable: /bin/bash
-            when: "'mach2ne' in inventory_hostname"
+            when: "'nitro' in inventory_hostname"
           - name: Copy result files back to host
             shell: |
                    scp -r /home/lroque/run_models_distributed/results/* mach2ne:/home/mach2ne/run_models_distributed/results

@@ -11,7 +11,7 @@ ansible-playbook /etc/ansible/setup_playbook.yml
 # this task needs to be preceded by the ansible setup
 # because that is the moment that the directories are
 # pulled from github fresh
-scp -r data/ mach2ne:/home/mach2ne/run_models_distributed/
+# scp -r data/ mach2ne:/home/mach2ne/run_models_distributed/
 scp -r data/ coral:/home/lroque/run_models_distributed/
 scp -r data/ marineye:/home/lroque/run_models_distributed/
 scp -r data/ nitro:/home/lroque/run_models_distributed/
