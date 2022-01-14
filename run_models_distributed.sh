@@ -3,6 +3,7 @@
 # copy playbooks to ansible folder
 sudo cp setup_playbook.yml /etc/ansible/setup_playbook.yml
 sudo cp run_models_playbook.yml /etc/ansible/run_models_playbook.yml
+sudo cp run_models_playbook_partial.yml /etc/ansible/run_models_playbook_partial.yml
 
 # run ansible setup file
 ansible-playbook /etc/ansible/setup_playbook.yml
@@ -17,4 +18,4 @@ scp -r data/ marineye:/home/lroque/run_models_distributed/
 scp -r data/ nitro:/home/lroque/run_models_distributed/
 
 # run ansible run file
-ansible-playbook /etc/ansible/run_models_playbook.yml
+ansible-playbook /etc/ansible/run_models_playbook_partial.yml
