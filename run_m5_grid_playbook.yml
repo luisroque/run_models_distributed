@@ -35,4 +35,4 @@
             args:
                     executable: /bin/bash
             register: shell_output
-            - debug: var=shell_output.stdout_lines
+          - debug: var=shell_output.stdout_lines
