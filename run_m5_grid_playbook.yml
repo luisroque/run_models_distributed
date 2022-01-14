@@ -31,7 +31,8 @@
                    source "/homes/{{ hostvars[inventory_hostname].ansible_user }}/anaconda3/bin/activate"
                    conda activate run_models
                    cd run_models_distributed
-                   sbatch run_m5_slurm
+                   sbatch -o m5_output run_m5_slurm
             args:
                     executable: /bin/bash
             register: shell_output
+            - debug: var=shell_output.stdout_lines
