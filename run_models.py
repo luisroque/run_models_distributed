@@ -103,7 +103,7 @@ if __name__ == "__main__":
 
     if algo_transf['dataset'][0]=='tourism':
         aggregate_key = '(State / Zone / Region) * Purpose'
-    elif algo_tranf['dataset'][0]=='prison':
+    elif algo_transf['dataset'][0]=='prison':
         aggregate_key = 'Gender * Legal * State'
 
     groups, vis = create_groups_from_data(algo_transf['dataset'][0])
