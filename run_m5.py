@@ -4,7 +4,7 @@ import tsaugmentation as tsag
 import matplotlib.pyplot as plt
 import os
 
-dataset_name = 'm5'
+dataset_name = 'prison'
 dataset = tsag.preprocessing.PreprocessDatasets(dataset_name)
 groups = dataset.apply_preprocess()
 

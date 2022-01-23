@@ -15,7 +15,7 @@ def create_groups_from_data(dataset_name):
 
     return groups, vis
 
-def run_orginal_algorithm(dataset_name, algorithms, transformations, groups, vis, aggregate_key):
+def run_original_algorithm(dataset_name, algorithms, transformations, groups, vis, aggregate_key):
     for algorithm in algorithms:
         for k in transformations:
             # run algorithms for the original version of the dataset
@@ -103,7 +103,9 @@ if __name__ == "__main__":
 
     if algo_transf['dataset'][0]=='tourism':
         aggregate_key = '(State / Zone / Region) * Purpose'
+    elif algo_tranf['dataset'][0]=='prison':
+        aggregate_key = 'Gender * Legal * State'
 
     groups, vis = create_groups_from_data(algo_transf['dataset'][0])
     run_original_algorithm(algo_transf['dataset'][0], algo_transf['algorithm'], algo_transf['transformation'], groups, vis, aggregate_key)
-    run_algorithm(algo_transf['dataset'][0], algo_transf['algorithm'], algo_transf['transformation'], groups, vis, aggregate_key)
+    #run_algorithm(algo_transf['dataset'][0], algo_transf['algorithm'], algo_transf['transformation'], groups, vis, aggregate_key)
