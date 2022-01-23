@@ -15,6 +15,20 @@ def create_groups_from_data(dataset_name):
 
     return groups, vis
 
+def create_transformations(dataset_name):
+    # Create transformed datasets
+    data = tsag.transformations.CreateTransformedVersions(dataset_name)
+    
+    # Parameters for the tourism dataset
+    if dataset_name == 'tourism':
+        data.parameters = {"jitter": 1.5,
+                           "scaling": 0.3,
+                           "magnitude_warp": 0.3,
+                           "time_warp": 0.005}
+
+    data.create_new_version_single_transf()
+
+
 def run_original_algorithm(dataset_name, algorithms, transformations, groups, vis, aggregate_key):
     for algorithm in algorithms:
         for k in transformations:
@@ -107,5 +121,6 @@ if __name__ == "__main__":
         aggregate_key = 'Gender * Legal * State'
 
     groups, vis = create_groups_from_data(algo_transf['dataset'][0])
-    #run_original_algorithm(algo_transf['dataset'][0], algo_transf['algorithm'], algo_transf['transformation'], groups, vis, aggregate_key)
+    create_transformations(algo_transf['dataset'][0])
+    run_original_algorithm(algo_transf['dataset'][0], algo_transf['algorithm'], algo_transf['transformation'], groups, vis, aggregate_key)
     run_algorithm(algo_transf['dataset'][0], algo_transf['algorithm'], algo_transf['transformation'], groups, vis, aggregate_key)
