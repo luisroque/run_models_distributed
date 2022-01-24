@@ -25,6 +25,11 @@ def create_transformations(dataset_name):
                            "scaling": 0.3,
                            "magnitude_warp": 0.3,
                            "time_warp": 0.005}
+    elif dataset_name=='prison':
+        data.parameters = {"jitter": 1.5,
+                           "scaling": 0.3,
+                           "magnitude_warp": 0.3,
+                           "time_warp": 0.005}
 
     data.create_new_version_single_transf()
 
