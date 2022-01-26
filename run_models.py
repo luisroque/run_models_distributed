@@ -99,7 +99,11 @@ def parse_args():
             help="select a dataset", 
             type=str, 
             default=['tourism'])
-
+    parser.add_argument('--execution', '-e', 
+            nargs='+',
+            help="select type of execution", 
+            type=str, 
+            default=['original'])
     algo_transf = {}
     for k, v in parser.parse_args()._get_kwargs():
         algo_transf[k] = v
@@ -107,7 +111,7 @@ def parse_args():
     assert all(x in ['gpf', 'mint', 'deepar'] for x in algo_transf['algorithm']), 'The algorithm is not implemented'        
     assert all(x in ['jitter', 'scaling', 'magnitude_warp', 'time_warp'] for x in algo_transf['transformation']), 'Transformation not implemented'
     assert all(x in ['tourism', 'prison', 'm5', 'police'] for x in algo_transf['dataset']), 'Dataset not implemented'
-
+    assert all(x in ['original', 'transformed'] for x in algo_transf['execution']), 'Execution not implemented'
 
     return algo_transf
 
@@ -125,5 +129,7 @@ if __name__ == "__main__":
 
     groups, vis = create_groups_from_data(algo_transf['dataset'][0])
     create_transformations(algo_transf['dataset'][0])
-    run_original_algorithm(algo_transf['dataset'][0], algo_transf['algorithm'], algo_transf['transformation'], groups, vis, aggregate_key)
-    run_algorithm(algo_transf['dataset'][0], algo_transf['algorithm'], algo_transf['transformation'], groups, vis, aggregate_key)
+    if algo_transf['execution']=='original':
+        run_original_algorithm(algo_transf['dataset'][0], algo_transf['algorithm'], algo_transf['transformation'], groups, vis, aggregate_key)
+    elif algo_transf['execution']=='transformed':
+        run_algorithm(algo_transf['dataset'][0], algo_transf['algorithm'], algo_transf['transformation'], groups, vis, aggregate_key)
