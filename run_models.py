@@ -20,16 +20,10 @@ def create_transformations(dataset_name):
     data = tsag.transformations.CreateTransformedVersions(dataset_name)
     
     # Parameters for the tourism dataset
-    if dataset_name == 'tourism':
-        data.parameters = {"jitter": 1.5,
-                           "scaling": 0.3,
-                           "magnitude_warp": 0.3,
-                           "time_warp": 0.005}
-    elif dataset_name=='prison':
-        data.parameters = {"jitter": 1.5,
-                           "scaling": 0.3,
-                           "magnitude_warp": 0.3,
-                           "time_warp": 0.005}
+    data.parameters = {"jitter": 1.5,
+                       "scaling": 0.3,
+                       "magnitude_warp": 0.3,
+                       "time_warp": 0.005}
 
     data.create_new_version_single_transf()
 
@@ -112,7 +106,7 @@ def parse_args():
 
     assert all(x in ['gpf', 'mint', 'deepar'] for x in algo_transf['algorithm']), 'The algorithm is not implemented'        
     assert all(x in ['jitter', 'scaling', 'magnitude_warp', 'time_warp'] for x in algo_transf['transformation']), 'Transformation not implemented'
-    assert all(x in ['tourism', 'prison', 'm5'] for x in algo_transf['dataset']), 'Dataset not implemented'
+    assert all(x in ['tourism', 'prison', 'm5', 'police'] for x in algo_transf['dataset']), 'Dataset not implemented'
 
 
     return algo_transf
@@ -124,6 +118,10 @@ if __name__ == "__main__":
         aggregate_key = '(State / Zone / Region) * Purpose'
     elif algo_transf['dataset'][0]=='prison':
         aggregate_key = 'Gender * Legal * State'
+    elif algo_transf['dataset'][0]=='m5':
+        aggregate_key = '(Category / Department / Item) * (State * Store)'
+    elif algo_transf['dataset'][0]=='police':
+        aggregate_key = 'Crime * Beat * Street * ZIP'
 
     groups, vis = create_groups_from_data(algo_transf['dataset'][0])
     create_transformations(algo_transf['dataset'][0])
