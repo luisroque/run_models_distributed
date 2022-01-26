@@ -129,7 +129,7 @@ if __name__ == "__main__":
 
     groups, vis = create_groups_from_data(algo_transf['dataset'][0])
     create_transformations(algo_transf['dataset'][0])
-    if algo_transf['execution']=='original':
+    if algo_transf['execution'][0]=='original':
         run_original_algorithm(algo_transf['dataset'][0], algo_transf['algorithm'], algo_transf['transformation'], groups, vis, aggregate_key)
-    elif algo_transf['execution']=='transformed':
+    elif algo_transf['execution'][0]=='transformed':
         run_algorithm(algo_transf['dataset'][0], algo_transf['algorithm'], algo_transf['transformation'], groups, vis, aggregate_key)
