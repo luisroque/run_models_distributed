@@ -1,5 +1,5 @@
 gpforecaster==0.1.1
-htsmodels==0.1.3
+htsmodels==0.1.4
 tsaugmentation==0.2.7
 matplotlib==3.3.4
 openpyxl==3.0.9
