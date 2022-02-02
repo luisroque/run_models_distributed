@@ -125,7 +125,7 @@ if __name__ == "__main__":
     elif algo_transf['dataset'][0]=='m5':
         aggregate_key = '(Category / Department / Item) * (State * Store)'
     elif algo_transf['dataset'][0]=='police':
-        aggregate_key = 'Crime * Beat * Street * ZIP'
+        aggregate_key = 'Crime * Beat * Street * Zip'
 
     groups, vis = create_groups_from_data(algo_transf['dataset'][0])
     create_transformations(algo_transf['dataset'][0])
