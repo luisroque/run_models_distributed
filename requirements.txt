@@ -1,4 +1,4 @@
-gpforecaster==0.1.6
+gpforecaster==0.1.7
 htsmodels==0.2.1
 tsaugmentation==0.3.5
 matplotlib==3.3.4
