@@ -3,7 +3,6 @@ warnings.filterwarnings("ignore")
 import gpforecaster as gpf
 import htsmodels as hts
 import tsaugmentation as tsag
-import matplotlib.pyplot as plt
 import argparse
 
 
@@ -14,6 +13,7 @@ def create_groups_from_data(dataset_name):
     vis = tsag.visualization.Visualizer(dataset_name)
 
     return groups, vis
+
 
 def create_transformations(dataset_name):
     # Create transformed datasets
@@ -28,7 +28,7 @@ def create_transformations(dataset_name):
     data.create_new_version_single_transf()
 
 
-def run_original_algorithm(dataset_name, algorithms, transformations, groups, vis, aggregate_key):
+def run_original_algorithm(dataset_name, algorithms, transformations, groups, aggregate_key):
     for algorithm in algorithms:
         for k in transformations:
             # run algorithms for the original version of the dataset
@@ -40,6 +40,7 @@ def run_original_algorithm(dataset_name, algorithms, transformations, groups, vi
                          aggregate_key=aggregate_key)
             elif algorithm=='gpf':
                 run_gpf(dataset=f'{dataset_name}_{algorithm}_{k}_orig_s0', groups=groups)
+
 
 def run_algorithm(dataset_name, algorithms, transformations, groups, vis, aggregate_key):
     for algorithm in algorithms:
@@ -58,6 +59,7 @@ def run_algorithm(dataset_name, algorithms, transformations, groups, vis, aggreg
                     elif algorithm=='gpf':
                         run_gpf(dataset=f'{dataset_name}_{algorithm}_{k}_v{i}_s{j}', groups=groups)
 
+
 def run_deepar(dataset, groups):
     deepar = hts.models.DeepAR(dataset=dataset, groups=groups)
     model = deepar.train()
@@ -65,6 +67,7 @@ def run_deepar(dataset, groups):
     results = deepar.results(forecasts)
     res = deepar.metrics(results)
     deepar.store_metrics(res)
+
 
 def run_mint(dataset, groups, aggregate_key):
     mint = hts.models.MinT(dataset=dataset,
@@ -75,12 +78,14 @@ def run_mint(dataset, groups, aggregate_key):
     res = mint.metrics(results)
     mint.store_metrics(res)
 
+
 def run_gpf(dataset, groups):
     gpf_model = gpf.model.GPF(dataset, groups)
     model, like = gpf_model.train()
     mean, lower, upper = gpf_model.predict(model, like)
     res = gpf_model.metrics(mean)
     gpf_model.store_metrics(res)
+
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -115,6 +120,7 @@ def parse_args():
 
     return algo_transf
 
+
 if __name__ == "__main__":
     algo_transf = parse_args()
 
@@ -130,6 +136,6 @@ if __name__ == "__main__":
     groups, vis = create_groups_from_data(algo_transf['dataset'][0])
     #create_transformations(algo_transf['dataset'][0])
     if algo_transf['execution'][0]=='original':
-        run_original_algorithm(algo_transf['dataset'][0], algo_transf['algorithm'], algo_transf['transformation'], groups, vis, aggregate_key)
+        run_original_algorithm(algo_transf['dataset'][0], algo_transf['algorithm'], algo_transf['transformation'], groups, aggregate_key)
     elif algo_transf['execution'][0]=='transformed':
         run_algorithm(algo_transf['dataset'][0], algo_transf['algorithm'], algo_transf['transformation'], groups, vis, aggregate_key)
