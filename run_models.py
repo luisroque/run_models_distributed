@@ -59,33 +59,29 @@ def run_algorithm(dataset_name, algorithms, transformations, groups, vis, aggreg
                     elif algorithm=='gpf':
                         run_gpf(dataset=f'{dataset_name}_{algorithm}_{k}_v{i}_s{j}', groups=groups)
 
-
 def run_deepar(dataset, groups):
     deepar = hts.models.DeepAR(dataset=dataset, groups=groups)
     model = deepar.train()
     forecasts = deepar.predict(model)
-    results = deepar.results(forecasts)
-    res = deepar.metrics(results)
+    samples = deepar.results(forecasts)
+    res = deepar.metrics(samples)
     deepar.store_metrics(res)
-
 
 def run_mint(dataset, groups, aggregate_key):
     mint = hts.models.MinT(dataset=dataset,
                            groups=groups,
                            aggregate_key=aggregate_key)
     forecasts = mint.train()
-    results = mint.results(forecasts)
-    res = mint.metrics(results)
+    df_results = mint.results(forecasts)
+    res = mint.metrics(df_results)
     mint.store_metrics(res)
-
 
 def run_gpf(dataset, groups):
     gpf_model = gpf.model.GPF(dataset, groups)
     model, like = gpf_model.train()
-    mean, lower, upper = gpf_model.predict(model, like)
-    res = gpf_model.metrics(mean)
+    samples = gpf_model.predict(model, like)
+    res = gpf_model.metrics(samples)
     gpf_model.store_metrics(res)
-
 
 def parse_args():
     parser = argparse.ArgumentParser()
