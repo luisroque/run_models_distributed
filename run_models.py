@@ -7,7 +7,7 @@ warnings.filterwarnings("ignore")
 
 
 def create_groups_from_data(dataset_name):
-    dataset = tsag.preprocessing.PreprocessDatasets(dataset_name)
+    dataset = tsag.preprocessing.PreprocessDatasets(dataset_name,  test_size=228*30)
     groups = dataset.apply_preprocess()
 
     vis = tsag.visualization.Visualizer(dataset_name)
@@ -132,23 +132,25 @@ if __name__ == "__main__":
     algo_transf = parse_args()
 
     if algo_transf['dataset'][0] == 'tourism':
-        aggregate_key = '(State / Zone / Region) * Purpose'
-    elif algo_transf['dataset'][0] == 'prison':
-        aggregate_key = 'State * Gender * Legal'
+        aggregate_key = 'State * Zone * Region * Purpose'
     elif algo_transf['dataset'][0] == 'm5':
         aggregate_key = 'Department * Category * Store * State * Item'
     elif algo_transf['dataset'][0] == 'police':
         aggregate_key = 'Crime * Beat * Street * Zip'
+    else:
+        # Dataset is prison
+        aggregate_key = 'State * Gender * Legal'
 
     groups, vis = create_groups_from_data(algo_transf['dataset'][0])
     #create_transformations(algo_transf['dataset'][0])
-    if algo_transf['execution'][0]=='original':
+
+    if algo_transf['execution'][0] == 'original':
         run_original_algorithm(algo_transf['dataset'][0],
                                algo_transf['algorithm'],
                                algo_transf['transformation'],
                                groups,
                                aggregate_key)
-    elif algo_transf['execution'][0]=='transformed':
+    elif algo_transf['execution'][0] == 'transformed':
         run_algorithm(algo_transf['dataset'][0],
                       algo_transf['algorithm'],
                       algo_transf['transformation'],
