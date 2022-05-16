@@ -62,8 +62,8 @@ def run_algorithm(dataset_name, algorithms, transformations, groups, vis, aggreg
 
 def run_deepar(dataset, groups):
     deepar = hts.models.DeepAR(dataset=dataset, groups=groups, 
-                               store_prediction_samples=True, 
-                               store_prediction_points=True)
+                               store_prediction_samples=False,
+                               store_prediction_points=False)
     model = deepar.train()
     forecasts = deepar.predict(model)
     samples = deepar.results(forecasts)
@@ -75,8 +75,8 @@ def run_mint(dataset, groups, aggregate_key):
     mint = hts.models.MinT(dataset=dataset,
                            groups=groups,
                            aggregate_key=aggregate_key, 
-                           store_prediction_samples=True, 
-                           store_prediction_points=True)
+                           store_prediction_samples=False,
+                           store_prediction_points=False)
     forecasts = mint.train()
     df_results = mint.results(forecasts)
     res = mint.metrics(df_results)
@@ -85,8 +85,8 @@ def run_mint(dataset, groups, aggregate_key):
 
 def run_gpf(dataset, groups):
     gpf_model = gpf.model.GPF(dataset, groups, 
-                              store_prediction_samples=True, 
-                              store_prediction_points=True)
+                              store_prediction_samples=False,
+                              store_prediction_points=False)
     model, like = gpf_model.train()
     samples = gpf_model.predict(model, like)
     res = gpf_model.metrics(samples)
