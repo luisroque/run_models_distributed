@@ -7,7 +7,7 @@ warnings.filterwarnings("ignore")
 
 
 def create_groups_from_data(dataset_name):
-    dataset = tsag.preprocessing.PreprocessDatasets(dataset_name,  test_size=228*30)
+    dataset = tsag.preprocessing.PreprocessDatasets(dataset_name)
     groups = dataset.apply_preprocess()
 
     vis = tsag.visualization.Visualizer(dataset_name)
