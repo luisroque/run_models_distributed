@@ -45,7 +45,7 @@ def run_original_algorithm(
                 run_mint(
                     dataset=f"{dataset_name}_{algorithm}_{k}_orig_s0",
                     groups=groups,
-                    aggregate_key=aggregate_key,
+                    aggregate_key=aggregate_key
                 )
             elif algorithm == "gpf":
                 run_gpf(
@@ -63,7 +63,22 @@ def run_original_algorithm(
                 run_standard_gp(
                     dataset=f"{dataset_name}_{algorithm}_{k}_orig_s0", groups=groups
                 )
-
+            elif algorithm == "ets_bu":
+                run_mint(
+                    dataset=f"{dataset_name}_{algorithm}_{k}_orig_s0",
+                    groups=groups,
+                    aggregate_key=aggregate_key,
+                    algorithm='ets',
+                    rec_method='bottom_up'
+                )
+            elif algorithm == "arima_bu":
+                run_mint(
+                    dataset=f"{dataset_name}_{algorithm}_{k}_orig_s0",
+                    groups=groups,
+                    aggregate_key=aggregate_key,
+                    algorithm='arima',
+                    rec_method='bottom_up'
+                )
 
 def run_algorithm(
     dataset_name, algorithms, transformations, groups, vis, aggregate_key
@@ -107,7 +122,7 @@ def run_deepar(dataset, groups):
     deepar.store_metrics(res)
 
 
-def run_mint(dataset, groups, aggregate_key):
+def run_mint(dataset, groups, aggregate_key, algorithm='ets', rec_method='mint'):
     mint = hts.models.MinT(
         dataset=dataset,
         groups=groups,
@@ -115,7 +130,7 @@ def run_mint(dataset, groups, aggregate_key):
         store_prediction_samples=False,
         store_prediction_points=False,
     )
-    forecasts = mint.train()
+    forecasts = mint.train(algorithm, rec_method)
     df_results = mint.results(forecasts)
     res = mint.metrics(df_results)
     mint.store_metrics(res)
@@ -188,6 +203,8 @@ def parse_args():
             "standard_gp_lin",
             "standard_gp_pie",
             "standard_gp_zer",
+            "ets_bu",
+            "arima_bu"
         ]
         for x in algo_transf["algorithm"]
     ), "The algorithm is not implemented"
