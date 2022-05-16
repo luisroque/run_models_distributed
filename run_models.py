@@ -59,6 +59,10 @@ def run_original_algorithm(
                 run_standard_gp(
                     dataset=f"{dataset_name}_{algorithm}_{k}_orig_s0", groups=groups
                 )
+            elif algorithm == "standard_gp_zer":
+                run_standard_gp(
+                    dataset=f"{dataset_name}_{algorithm}_{k}_orig_s0", groups=groups
+                )
 
 
 def run_algorithm(
@@ -127,7 +131,7 @@ def run_gpf(dataset, groups):
     gpf_model.store_metrics(res)
 
 
-def run_standard_gp(dataset, groups, mean_func='linear'):
+def run_standard_gp(dataset, groups, mean_func="linear"):
     gpf_model = hts.models.SGP(
         dataset, groups, store_prediction_samples=False, store_prediction_points=False
     )
@@ -176,7 +180,16 @@ def parse_args():
         algo_transf[k] = v
 
     assert all(
-        x in ["gpf", "mint", "deepar", "standard_gp_lin", "standard_gp_pie"] for x in algo_transf["algorithm"]
+        x
+        in [
+            "gpf",
+            "mint",
+            "deepar",
+            "standard_gp_lin",
+            "standard_gp_pie",
+            "standard_gp_zer",
+        ]
+        for x in algo_transf["algorithm"]
     ), "The algorithm is not implemented"
     assert all(
         x in ["jitter", "scaling", "magnitude_warp", "time_warp"]
