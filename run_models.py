@@ -80,6 +80,7 @@ def run_original_algorithm(
                     rec_method='bottom_up'
                 )
 
+
 def run_algorithm(
     dataset_name, algorithms, transformations, groups, vis, aggregate_key
 ):
