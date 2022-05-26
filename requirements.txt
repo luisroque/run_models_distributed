@@ -4,3 +4,4 @@ tsaugmentation==0.3.7
 matplotlib==3.3.4
 openpyxl==3.0.9
 properscoring==0.1
+htsexperimentation==0.1.0
